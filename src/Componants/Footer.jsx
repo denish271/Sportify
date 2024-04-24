@@ -1,5 +1,6 @@
 import React from "react";
 import { FaInstagram, FaFacebookF, FaWhatsapp } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   let div1 = {
@@ -39,12 +40,12 @@ export default function Footer() {
       </div>
       <hr />
       <div className="row">
-        <div className="col-sm text-center mt-2">
-          ©2024 Sportify, All Right Reserved
-        </div>
         <div className="col-sm text-center">
           Privacy Policy <br />
-          Terms & Conditions
+          <Link to="/term"> Terms & Conditions</Link>
+        </div>
+        <div className="col-sm text-center mt-2">
+          ©2024 Sportify, All Right Reserved
         </div>
       </div>
     </div>

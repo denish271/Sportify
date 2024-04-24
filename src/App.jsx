@@ -22,6 +22,9 @@ import ForgetChangePass from "./Componants/ForgetChangePass";
 import Profile from "./Componants/Profile";
 import YourOrders from "./Componants/YourOrders";
 import Review from "./Componants/Review";
+import CancellationForm from "./Componants/CancellationForm";
+import { Return } from "./Componants/Return";
+import { T_C } from "./Componants/T_C";
 
 export default function App() {
   let { showNav } = useValid();
@@ -49,6 +52,9 @@ export default function App() {
               <Route path="/changepass" element={<ChangePass />} />
               <Route path="/yourorder" element={<YourOrders />} />
               <Route path="/review/:id" element={<Review />} />
+              <Route path="/cancle/:id" element={<CancellationForm />} />
+              <Route path="/return/:id" element={<Return />} />
+              <Route path="/term" element={<T_C />} />
               <Route path="*" element={<ErrorPage />} />
               <Route
                 path="/forgetchangepass/:id"

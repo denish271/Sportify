@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IoCartOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -33,6 +33,8 @@ export default function Nav() {
 
   const nevigate = useNavigate();
 
+  const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
     if (status === "Login")
       document.querySelector(".profile").style.display = "none";
@@ -50,6 +52,10 @@ export default function Nav() {
         updateStatus("logout");
       }
     }
+  };
+
+  const toggleSlideBar = () => {
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -110,9 +116,48 @@ export default function Nav() {
                   </Link>
                 </li>
               </ul>
-              <Link className="nav-link" to="/profile">
-                <CgProfile className="profile" />
-              </Link>
+              {/* <Link className="nav-link" to="/profile"> */}
+              <CgProfile className="profile" onClick={toggleSlideBar} />
+              <div>
+                {/* <button onClick={toggleSlideBar}>Toggle Slide Bar</button> */}
+                {isOpen && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      right: 0,
+                      top: 75,
+                      bottom: 0,
+                      width: "250px",
+                      height: "225px",
+                      background: "#154360",
+                      padding: "20px",
+                    }}
+                    className="border border-solid rounded d-flex align-items-center flex-column gap-3"
+                  >
+                    <h5>{data.name}</h5>
+                    <h6>Email : {data.email}</h6>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => {
+                        toggleSlideBar();
+                        nevigate("/changepass");
+                      }}
+                    >
+                      Change Password
+                    </button>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => {
+                        toggleSlideBar();
+                        nevigate("/yourorder");
+                      }}
+                    >
+                      Your Orders
+                    </button>
+                  </div>
+                )}
+              </div>
+              {/* </Link> */}
               <h6>{data.fullname}</h6>
               <button
                 className="btn btn-primary mx-4 px-4"

@@ -1,9 +1,11 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "../styles/Button";
 import axios from "axios";
 import { useValid } from "../Context/ValidContext";
+import Alert from "react-bootstrap/Alert";
+import Button1 from "react-bootstrap/Button";
 
 const Wrapper = styled.section`
   .main {
@@ -50,6 +52,8 @@ const Login = () => {
 
   const location = useLocation();
 
+  const [show, setShow] = useState();
+
   useEffect(() => {
     if (location.pathname === "/login") {
       updateShowNav("login");
@@ -74,10 +78,11 @@ const Login = () => {
       .then((res) => {
         updateData(res.data);
         if (res.data.msg) {
-          updateShowNav("register");
-          updateStatus("login");
-          alert("Login Successfully...");
-          nevigate("/");
+          // updateShowNav("register");
+          // updateStatus("login");
+          // alert("Login Successfully...");
+          // nevigate("/");
+          setShow(true);
         }
       })
       .catch((err) => {
@@ -133,6 +138,29 @@ const Login = () => {
           </div>
         </div>
       </Wrapper>
+      {show && (
+        <Alert
+          variant="primary"
+          className="position-absolute top-50 start-50 translate-middle-x px-5"
+        >
+          <Alert.Heading>A Success Message!</Alert.Heading>
+          <div className="text-center">Login Successfully</div>
+          <div className="d-flex justify-content-center">
+            <Button1
+              variant="outline-primary"
+              className="mt-2"
+              onClick={() => {
+                setShow(false);
+                updateShowNav("register");
+                updateStatus("login");
+                nevigate("/");
+              }}
+            >
+              Close
+            </Button1>
+          </div>
+        </Alert>
+      )}
     </>
   );
 };

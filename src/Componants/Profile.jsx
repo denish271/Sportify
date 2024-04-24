@@ -26,7 +26,7 @@ const Wrepper = styled.section`
 `;
 
 const Profile = () => {
-  const { data, updateShowNav } = useValid();
+  const { data} = useValid();
   const nevigate = useNavigate();
   // useEffect(() => {
   //   if (window.location.pathname === "/profile") {

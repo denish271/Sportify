@@ -1,13 +1,14 @@
 import React from "react";
-import CancellationForm from "./CancellationForm";
-import { Return } from "./Return";
 import { useNavigate } from "react-router-dom";
+import SlideBar from "./SlideBar";
+import { T_C } from "./T_C";
 
 const About = () => {
   const nevigate = useNavigate();
   return (
     <>
-      <div className="container">
+      <T_C />
+      {/* <div className="container">
         <h1 className="text-center my-3">About Us</h1>
         <div className="fs-5">
           <p>
@@ -45,7 +46,7 @@ const About = () => {
 
           <p>Happy shopping!</p>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
