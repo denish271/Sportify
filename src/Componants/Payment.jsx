@@ -7,10 +7,13 @@ import { Button } from "../styles/Button";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../Context/CartContext";
 import axios from "axios";
+import displayRazorpay from "../services/payment";
+import { useValid } from "../Context/ValidContext";
 
 export default function () {
   const nevigate = useNavigate();
   const [method, setMethod] = useState();
+  const { data } = useValid();
   const { subtotal } = useCart();
   const searchParams = new URLSearchParams(window.location.search);
   const address = searchParams.get("address");
@@ -19,7 +22,7 @@ export default function () {
   };
 
   useEffect(() => {
-    console.log(method);
+    // console.log(method);
   }, [method]);
 
   const postPaymentData = async (e) => {
@@ -28,7 +31,6 @@ export default function () {
     let grand_total = (
       subtotal + parseFloat(((subtotal * 5) / 100).toFixed(2))
     ).toFixed(2);
-    console.log(grand_total);
     await axios({
       method: "post",
       url: "http://localhost:8000/api/payment/",
@@ -40,13 +42,27 @@ export default function () {
     nevigate(`/placeorder?address=${address}&payment=${payment}`);
   };
 
+  const onPaymentHandle = () => {
+    try {
+      let grand_total = (
+        subtotal + parseFloat(((subtotal * 5) / 100).toFixed(2))
+      ).toFixed(2);
+      displayRazorpay(grand_total);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="container-fluid">
       <div className="container">
         <h2 className="text-center my-2">Payment</h2>
         <form onSubmit={postPaymentData}>
           <div>
-            <h5>RECOMMENDED</h5>
+            <h5>RECOMMENDED</h5>{" "}
+            <span className="ms-4" onClick={onPaymentHandle}>
+              clieck button
+            </span>
             <div className="d-flex border border-3 border-dark rounded my-3 py-3 pt-4">
               <div className="mx-4">
                 <IoMdCash />
