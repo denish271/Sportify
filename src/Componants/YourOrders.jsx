@@ -56,10 +56,10 @@ const YourOrders = () => {
       <div className="container p-3">
         <h1 className="text-center">Your Orders</h1>
         <div className="row text-center my-3">
-          <div className="col-2">
+          <div className="col-3">
             <h3>Product Image</h3>
           </div>
-          <div className="col-4">
+          <div className="col-5">
             <h3>Product Name</h3>
           </div>
           <div className="col-2">
@@ -73,14 +73,14 @@ const YourOrders = () => {
           {orderData.map((val, i) => {
             return (
               <div className="row text-center ">
-                <div className="col-2">
+                <div className="col-3">
                   <img
                     src={val.image}
                     alt="Product image here"
                     style={{ height: "200px", width: "200px" }}
                   />
                 </div>
-                <div className="col-4 d-flex justify-content-center align-items-center">
+                <div className="col-5 d-flex justify-content-center align-items-center">
                   {val.name}
                 </div>
                 <div className="col-2 d-flex justify-content-center align-items-center">
@@ -88,25 +88,6 @@ const YourOrders = () => {
                 </div>
                 <div className="col-2 d-flex justify-content-center align-items-center">
                   {val.status === false ? "Pending" : "Completed"}
-                </div>
-                <div className="col-2 d-flex justify-content-center align-items-center">
-                  {val.status ? (
-                    <Button
-                      onClick={() => {
-                        navigate(`/return/${i}`);
-                      }}
-                    >
-                      Return
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={() => {
-                        navigate(`/cancle/${i+1}`);
-                      }}
-                    >
-                      Cancle
-                    </Button>
-                  )}
                 </div>
                 <hr className="my-1" />
               </div>

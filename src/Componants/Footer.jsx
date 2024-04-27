@@ -21,13 +21,13 @@ export default function Footer() {
         </div>
         <div className="col-sm text-center">
           <h5>Follow Us</h5>
-          <a className="m-1 text-white" href="/">
+          <a className="m-1 text-white" href="https://www.instagram.com/mahesh.16__?igsh=MWd3dG51amV6NHB2dQ==">
             <FaInstagram />
           </a>
-          <a className="m-1 text-white" href="/">
+          <a className="m-1 text-white" href="https://www.facebook.com/profile.php?id=100025186593677">
             <FaFacebookF />
           </a>
-          <a className="m-1 text-white" href="/">
+          <a className="m-1 text-white" href="https://chat.whatsapp.com/EJJBvtslvWP8IXGurSNDVS">
             <FaWhatsapp />
           </a>
         </div>

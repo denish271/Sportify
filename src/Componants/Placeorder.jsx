@@ -13,7 +13,8 @@ export default function Placeorder() {
   const [product, setProduct] = useState([]);
   const nevigate = useNavigate();
   const { data } = useValid();
-  const { cart } = useCart();
+  const { cart, subtotal } = useCart();
+
   const searchParams = new URLSearchParams(window.location.search);
   const [show, setShow] = useState();
 
@@ -39,7 +40,7 @@ export default function Placeorder() {
   };
 
   useEffect(() => {
-    console.log(product);
+    console.log("product", product);
   }, [product]);
   useEffect(() => {
     console.log(addressData);
@@ -53,20 +54,40 @@ export default function Placeorder() {
     FetchAddressData();
     FetchPaymentData();
     getProductId();
+    console.log(cart);
   }, []);
 
-  let order_id;
   const postOrderData = async () => {
-    // await axios({
-    //   method: "post",
-    //   url: "http://127.0.0.1:8000/api/order/",
-    //   data: {
-    //     user: data.id,
-    //     address: address_id,
-    //     payment: payment_id,
-    //     product,
-    //   },
-    // }).then((res) => (order_id = res.data.id));
+    await axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/api/order/",
+      data: {
+        user: data.id,
+        address: address_id,
+        payment: payment_id,
+        product,
+      },
+    });
+    cart.forEach(async (val) => {
+      let price;
+      await axios
+        .get(`http://127.0.0.1:8000/api/product/${val.id}`)
+        .then((res) => {
+          price = res.data.price;
+        });
+      console.log(price, "price");
+      await axios({
+        method: "post",
+        url: "http://127.0.0.1:8000/api/sales/",
+        data: {
+          user: data.id,
+          product: val.id,
+          sales_price: price,
+          quantity: 1,
+        },
+      });
+    });
+
     setShow(true);
   };
 
@@ -93,8 +114,8 @@ export default function Placeorder() {
           </div>
         </div>
         <Button className="w-100 mt-3" onClick={postOrderData}>
-        </Button>
           Place Order
+        </Button>
       </div>
       {show && (
         <Alert

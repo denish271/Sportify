@@ -21,9 +21,16 @@ export default function () {
     setMethod(e.target.value);
   };
 
-  useEffect(() => {
-    // console.log(method);
-  }, [method]);
+  const onPaymentHandle = async () => {
+    try {
+      let grand_total = (
+        subtotal + parseFloat(((subtotal * 5) / 100).toFixed(2))
+      ).toFixed(2);
+      await displayRazorpay(grand_total);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const postPaymentData = async (e) => {
     let payment;
@@ -39,18 +46,8 @@ export default function () {
         payment_mode: method,
       },
     }).then((res) => (payment = res.data.id));
+    method === "online" && (await onPaymentHandle());
     nevigate(`/placeorder?address=${address}&payment=${payment}`);
-  };
-
-  const onPaymentHandle = () => {
-    try {
-      let grand_total = (
-        subtotal + parseFloat(((subtotal * 5) / 100).toFixed(2))
-      ).toFixed(2);
-      displayRazorpay(grand_total);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
@@ -59,10 +56,7 @@ export default function () {
         <h2 className="text-center my-2">Payment</h2>
         <form onSubmit={postPaymentData}>
           <div>
-            <h5>RECOMMENDED</h5>{" "}
-            <span className="ms-4" onClick={onPaymentHandle}>
-              clieck button
-            </span>
+            <h5>RECOMMENDED</h5>
             <div className="d-flex border border-3 border-dark rounded my-3 py-3 pt-4">
               <div className="mx-4">
                 <IoMdCash />
@@ -85,27 +79,26 @@ export default function () {
             </div>
           </div>
 
-          <div>
-            <h5>Other Methods of Payments</h5>
-            <div className="d-flex border border-3 border-dark rounded my-3 py-3 pt-4">
-              <div className="mx-4">
-                <CiCreditCard1 />
-              </div>
-              <div className="w-100">
-                <p className="my-0 fw-bold h5">Credit or Debit Card</p>
-              </div>
-              <div className="p-2 pe-4 form-check">
-                <input
-                  className="form-check-input border border-dark"
-                  type="radio"
-                  name="payment"
-                  value="Credit/Debit"
-                  onChange={selectRadio}
-                  required
-                />
-              </div>
+          <div className="d-flex border border-3 border-dark rounded my-3 py-3 pt-4">
+            <div className="mx-4">
+              <CiCreditCard1 />
             </div>
-            <div className="d-flex border border-3 border-dark rounded my-3 py-3 pt-4">
+            <div className="w-100">
+              <p className="my-0 fw-bold h5">Online Payment</p>
+              <p>UPI and Credit/Debit Card</p>
+            </div>
+            <div className="p-2 pe-4 form-check">
+              <input
+                className="form-check-input border border-dark"
+                type="radio"
+                name="payment"
+                value="online"
+                onChange={selectRadio}
+                required
+              />
+            </div>
+          </div>
+          {/* <div className="d-flex border border-3 border-dark rounded my-3 py-3 pt-4">
               <div className="mx-4">
                 <FaGooglePay />
                 <SiPaytm />
@@ -122,8 +115,7 @@ export default function () {
                   onChange={selectRadio}
                 />
               </div>
-            </div>
-          </div>
+          </div> */}
           <Button className="w-100 my-2" type="submit">
             Continue
           </Button>

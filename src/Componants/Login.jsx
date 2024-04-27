@@ -54,6 +54,8 @@ const Login = () => {
 
   const [show, setShow] = useState();
 
+  const [msg, setMsg] = useState();
+
   useEffect(() => {
     if (location.pathname === "/login") {
       updateShowNav("login");
@@ -78,18 +80,17 @@ const Login = () => {
       .then((res) => {
         updateData(res.data);
         if (res.data.msg) {
-          // updateShowNav("register");
-          // updateStatus("login");
-          // alert("Login Successfully...");
-          // nevigate("/");
           setShow(true);
+          setMsg("Login Successfully");
         }
       })
       .catch((err) => {
-        alert(err.response.data.detail);
-        if (err.response.status === 400) {
-          alert("User Already Exist...");
-        }
+        // alert(err.response.data.detail);
+        setShow(true);
+        setMsg(err.response.data.detail);
+        // if (err.response.status === 400) {
+        //   alert("User Already Exist...");
+        // }
       });
   };
 
@@ -143,8 +144,10 @@ const Login = () => {
           variant="primary"
           className="position-absolute top-50 start-50 translate-middle-x px-5"
         >
-          <Alert.Heading>A Success Message!</Alert.Heading>
-          <div className="text-center">Login Successfully</div>
+          {msg === "Login Successfully" && (
+            <Alert.Heading>A Success Message!</Alert.Heading>
+          )}
+          <div className="text-center">{msg}</div>
           <div className="d-flex justify-content-center">
             <Button1
               variant="outline-primary"
@@ -153,7 +156,7 @@ const Login = () => {
                 setShow(false);
                 updateShowNav("register");
                 updateStatus("login");
-                nevigate("/");
+                msg === "Login Successfully" && nevigate("/");
               }}
             >
               Close

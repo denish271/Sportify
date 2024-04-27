@@ -116,10 +116,8 @@ export default function Nav() {
                   </Link>
                 </li>
               </ul>
-              {/* <Link className="nav-link" to="/profile"> */}
               <CgProfile className="profile" onClick={toggleSlideBar} />
               <div>
-                {/* <button onClick={toggleSlideBar}>Toggle Slide Bar</button> */}
                 {isOpen && (
                   <div
                     style={{
@@ -128,16 +126,21 @@ export default function Nav() {
                       top: 75,
                       bottom: 0,
                       width: "250px",
-                      height: "225px",
+                      height: "300px",
                       background: "#154360",
                       padding: "20px",
                     }}
-                    className="border border-solid rounded d-flex align-items-center flex-column gap-3"
+                    className="border border-solid rounded"
                   >
-                    <h5>{data.name}</h5>
-                    <h6>Email : {data.email}</h6>
+                    <h5 className="text-decoration-underline text-center">
+                      Profile
+                    </h5>
+                    <h6>Username</h6>
+                    <p>{data.name}</p>
+                    <h6>Email</h6>
+                    <p>{data.email}</p>
                     <button
-                      className="btn btn-primary"
+                      className="btn btn-primary position-relative start-50 translate-middle-x"
                       onClick={() => {
                         toggleSlideBar();
                         nevigate("/changepass");
@@ -146,7 +149,7 @@ export default function Nav() {
                       Change Password
                     </button>
                     <button
-                      className="btn btn-primary"
+                      className="btn btn-primary position-relative start-50 translate-middle-x my-2"
                       onClick={() => {
                         toggleSlideBar();
                         nevigate("/yourorder");

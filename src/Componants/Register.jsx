@@ -1,9 +1,11 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "../styles/Button";
 import axios from "axios";
 import { useValid } from "../Context/ValidContext";
+import Alert from "react-bootstrap/Alert";
+import Button1 from "react-bootstrap/Button";
 
 const Wrapper = styled.section`
   .main {
@@ -52,6 +54,10 @@ const Register = () => {
 
   const location = useLocation();
 
+  const [show, setShow] = useState();
+
+  const [msg, setMsg] = useState();
+
   useEffect(() => {
     if (location.pathname === "/register") {
       updateShowNav("login");
@@ -70,7 +76,8 @@ const Register = () => {
     fromField.append("email", state.email);
     fromField.append("password", state.password);
     if (state.password !== state.cpassword) {
-      alert("Password and Confirm Password must have same...");
+      setShow(true);
+      setMsg("Password and Confirm Password must have same");
     } else {
       axios({
         method: "post",
@@ -80,17 +87,17 @@ const Register = () => {
         .then((res) => {
           console.log(res.data);
           updateData(res.data);
-          updateStatus("login");
-          updateShowNav("register");
-          // updateData({ name: state.fullname, email: state.email });
-          alert("Register Successfully...");
-          nevigate("/login");
+          setShow(true);
+          setMsg("Register Successfully");
+          // alert("Register Successfully...");
         })
         .catch((err) => {
           console.log(err);
           console.log(err.response.status);
           if (err.response.status === 400) {
-            alert("User Already Exsist....");
+            setShow(true);
+            setMsg("Email Already Exist");
+            // alert("User Already Exsist....");
           }
         });
     }
@@ -152,6 +159,32 @@ const Register = () => {
           </div>
         </div>
       </Wrapper>
+      {show && (
+        <Alert
+          variant="primary"
+          className="position-absolute top-50 start-50 translate-middle-x px-5"
+        >
+            {msg === "Register Successfully" && (
+              <Alert.Heading>A Success Message!</Alert.Heading>
+            )}
+          <div className="text-center">{msg}</div>
+          <div className="d-flex justify-content-center">
+            <Button1
+              variant="outline-primary"
+              className="mt-2"
+              onClick={() => {
+                setShow(false);
+                updateStatus("login");
+                updateShowNav("register");
+                updateData({ name: state.fullname, email: state.email });
+                msg === "Register Successfully" && nevigate("/login");
+              }}
+            >
+              Close
+            </Button1>
+          </div>
+        </Alert>
+      )}
     </>
   );
 };
